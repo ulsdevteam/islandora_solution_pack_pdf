@@ -208,6 +208,47 @@ function islandora_pdf_add_pdfa_derivative(AbstractObject $object, $force = FALS
 }
 
 /**
+ * Creates a PDF copy of the OBJ datastream.
+ */
+function islandora_pdf_add_pdf_derivative(AbstractObject $object, $force = FALSE) {
+  module_load_include('inc', 'islandora', 'includes/utilities');
+  if (!isset($object['OBJ'])) {
+    return islandora_pdf_missing_obj_datastream($object->id);
+  }
+  $file_uri = islandora_pdf_get_derivative_source_as_unmanaged_file($object);
+  $dsid = "PDF";
+  $success = islandora_pdf_add_datastream($object, $dsid, $file_uri);
+  if ($success === TRUE) {
+    return array(
+      'success' => TRUE,
+      'messages' => array(
+        array(
+          'message' => t('Created PDF derivative.'),
+          'type' => 'dsm',
+        ),
+      ),
+    );
+  }
+  else {
+    return array(
+      'success' => FALSE,
+      'messages' => array(
+        array(
+          'message' => t('Failed to create PDF derivative for @pid. Error message: @error'),
+          'message_sub' => array(
+            '@pid' => $object->id,
+            '@error' => $success,
+          ),
+          'type' => 'watchdog',
+          'severity' => WATCHDOG_ERROR,
+        ),
+      ),
+    );
+  }
+  return $success;
+}
+
+/**
  * Creates a JPG deriviative for the PREVIEW datastream.
  *
  * @param AbstractObject $object

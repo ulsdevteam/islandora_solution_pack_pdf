@@ -191,5 +191,16 @@ function islandora_pdf_islandora_sp_pdf_islandora_derivative() {
       'file' => drupal_get_path('module', 'islandora_pdf') . '/includes/derivatives.inc',
     );
   }
+  if (variable_get('islandora_pdf_create_pdf_copy', FALSE)) {
+    $derivatives[] = array(
+      'source_dsid' => 'OBJ',
+      'destination_dsid' => 'PDF',
+      'weight' => '2',
+      'function' => array(
+        'islandora_pdf_add_pdf_derivative',
+      ),
+      'file' => drupal_get_path('module', 'islandora_pdf') . '/includes/derivatives.inc',
+    );
+  }
   return $derivatives;
 }

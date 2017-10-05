@@ -63,6 +63,13 @@ function islandora_pdf_admin($form, &$form_state) {
     '#default_value' => variable_get('islandora_pdf_create_fulltext', FALSE),
   );
 
+  $form['islandora_pdf_url_fieldset']['islandora_pdf_create_pdf_copy'] = array(
+    '#type' => 'checkbox',
+    '#title' => t("Create PDF copy from OBJ"),
+    '#description' => t("Create a PDF copy of the OBJ datastreamIf present, the PDF datastream copy could be used for display if the display template looks for ['PDF']."),
+    '#default_value' => variable_get('islandora_pdf_create_pdf_copy', FALSE),
+  );
+
   $form['islandora_pdf_url_fieldset']['islandora_pdf_create_pdfa'] = array(
     '#type' => 'checkbox',
     '#title' => t("Create PDF/A archival derivative from PDF"),
